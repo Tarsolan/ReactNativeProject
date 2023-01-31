@@ -1,26 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  ImageBackground,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  TouchableHighlight,
-  Button,
-  Alert,
-  Platform,
-  StatusBar,
-  TextInput,
-  Switch,
-} from "react-native";
-import {
-  useDimensions,
-  useDeviceOrientation,
-} from "@react-native-community/hooks";
+import { StyleSheet, View, Image, Alert } from "react-native";
+import { useDeviceOrientation } from "@react-native-community/hooks";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
 import AppText from "./app/components/AppText";
@@ -44,6 +24,8 @@ import AppFormPicker from "./app/components/forms/AppFormPicker";
 import { AppForm } from "./app/components/forms";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
 import * as ImagePicker from "expo-image-picker";
+import ImageInput from "./app/components/ImageInput";
+import ImageInputList from "./app/components/ImageInputList";
 
 const categories = [
   { label: "Furniture", value: 1 },
@@ -55,19 +37,6 @@ export default function App() {
   const [firstName, setFirstName] = useState("");
   const [isNew, setIsNew] = useState(false);
   const [category, setCategory] = useState(categories[0]);
-
-  useEffect(() => {
-    requestPermission();
-  }, []);
-
-  const requestPermission = async () => {
-    const result = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (!result.granted)
-      alert("You need to enable permission to access the library.");
-  };
-
-  //console.log(Dimensions.get("screen"));
 
   const { landscape } = useDeviceOrientation();
 
@@ -81,6 +50,14 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Screen>
+        {/* <ImageInputList
+          imageUris={imageUris}
+          onAddImage={handleAddImage}
+          onRemoveImage={handleDelete}
+        /> */}
+        {/* <ImageInput imageUri={imageUri} onChangeImage={(uri) => setImageUris([...imageUris, uri])} /> */}
+        {/* <ButtonComponent title="Select Image" onPress={selectImage} />
+        <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} /> */}
         {/* <WelcomeScreen /> */}
         {/* <ViewImageScreen /> */}
 

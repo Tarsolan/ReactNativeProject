@@ -8,5 +8,13 @@ import FormField from "./FormField";
 import ErrorMessage from "./ErrorMessage";
 import SubmitButton from "./SubmitButton";
 import AppFormPicker from "./AppFormPicker";
+import FormImagePicker from "./FormImagePicker";
 
-export { AppForm, FormField, ErrorMessage, SubmitButton, AppFormPicker };
+export {
+  AppForm,
+  FormField,
+  FormImagePicker,
+  ErrorMessage,
+  SubmitButton,
+  AppFormPicker,
+};
