@@ -35,7 +35,7 @@ import Constants from "expo-constants";
 import Screen from "./app/components/Screen";
 import MyAccountScreen from "./app/screens/MyAccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppTextInput from "./app/components/TextInput";
 import AppPicker from "./app/components/AppPicker";
 import LoginScreen from "./app/screens/LoginScreen";
@@ -43,6 +43,7 @@ import RegisterScreen from "./app/screens/RegisterScreen";
 import AppFormPicker from "./app/components/forms/AppFormPicker";
 import { AppForm } from "./app/components/forms";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
+import * as ImagePicker from "expo-image-picker";
 
 const categories = [
   { label: "Furniture", value: 1 },
@@ -54,6 +55,17 @@ export default function App() {
   const [firstName, setFirstName] = useState("");
   const [isNew, setIsNew] = useState(false);
   const [category, setCategory] = useState(categories[0]);
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
+  const requestPermission = async () => {
+    const result = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (!result.granted)
+      alert("You need to enable permission to access the library.");
+  };
 
   //console.log(Dimensions.get("screen"));
 
