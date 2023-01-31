@@ -36,7 +36,7 @@ import Screen from "./app/components/Screen";
 import MyAccountScreen from "./app/screens/MyAccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
 import { useState } from "react";
-import AppTextInput from "./app/components/AppTextInput";
+import AppTextInput from "./app/components/TextInput";
 import AppPicker from "./app/components/AppPicker";
 import LoginScreen from "./app/screens/LoginScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";

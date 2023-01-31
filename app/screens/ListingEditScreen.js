@@ -6,7 +6,7 @@ import * as Yup from "yup";
 
 import {
   AppForm,
-  AppFormField,
+  FormField,
   SubmitButton,
   AppFormPicker,
 } from "../components/forms";
@@ -39,7 +39,7 @@ const categories = [
     value: 7,
     icon: { name: "headphones", color: "#4b7bec" },
   },
-  { label: "Books", value: 8, icon: { name: "car", color: "#fd9644" } },
+  { label: "Books", value: 8, icon: { name: "book", color: "#fd9644" } },
   { label: "Other", value: 9, icon: { name: "car", color: "#fd9644" } },
 ];
 
@@ -56,14 +56,14 @@ const ListingEditScreen = () => {
         onSubmit={(values) => console.log(values)}
         validationSchema={validationSchema}
       >
-        <AppFormField
+        <FormField
           autoCapitalize="words"
           autoCorrect={true}
           maxLength={255}
           name="title"
           placeholder="Title"
         />
-        <AppFormField
+        <FormField
           autoCapitalize="none"
           autoCorrect={false}
           keyboardType="numeric"
@@ -75,11 +75,12 @@ const ListingEditScreen = () => {
         <AppFormPicker
           items={categories}
           name="category"
+          numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
           placeholder="Category"
           style={{ width: "50%" }}
         />
-        <AppFormField
+        <FormField
           autoCapitalize="sentence"
           autoCorrect={true}
           maxLength={255}
