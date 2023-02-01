@@ -1,5 +1,5 @@
 // import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Image, Alert } from "react-native";
+import { StyleSheet, View, Image, Alert, Button } from "react-native";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
@@ -13,7 +13,7 @@ import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
 import MessagesScreen from "./app/screens/MessagesScreen";
 import Constants from "expo-constants";
 import Screen from "./app/components/Screen";
-import MyAccountScreen from "./app/screens/MyAccountScreen";
+import MyAccountScreen from "./app/screens/AccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
 import { useEffect, useState } from "react";
 import AppTextInput from "./app/components/TextInput";
@@ -26,17 +26,17 @@ import ListingEditScreen from "./app/screens/ListingEditScreen";
 import * as ImagePicker from "expo-image-picker";
 import ImageInput from "./app/components/ImageInput";
 import ImageInputList from "./app/components/ImageInputList";
-
-const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Cameras", value: 3 },
-];
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AppNavigator from "./app/navigation/AppNavigator";
+import navigationTheme from "./app/navigation/navigationTheme";
 
 export default function App() {
   const [firstName, setFirstName] = useState("");
   const [isNew, setIsNew] = useState(false);
-  const [category, setCategory] = useState(categories[0]);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const { landscape } = useDeviceOrientation();
 
@@ -50,6 +50,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Screen>
+        <NavigationContainer theme={navigationTheme}>
+          {loggedIn ? <AppNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+
         {/* <ImageInputList
           imageUris={imageUris}
           onAddImage={handleAddImage}
@@ -83,7 +87,7 @@ export default function App() {
         <AppTextInput placeholder="Email" icon="email" /> */}
         {/* <LoginScreen /> */}
         {/* <RegisterScreen /> */}
-        <ListingEditScreen />
+        {/* <ListingEditScreen /> */}
       </Screen>
     </View>
   );
