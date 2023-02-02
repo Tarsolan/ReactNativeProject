@@ -2,7 +2,7 @@ import { ImageBackground, View, StyleSheet, Image, Text } from "react-native";
 import AppText from "../components/AppText";
 import ButtonComponent from "../components/Button";
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
       source={require("../assets/background.jpg")}
@@ -21,12 +21,12 @@ const WelcomeScreen = () => {
       <View style={styles.button}>
         <ButtonComponent
           title="Login"
-          onPress={() => console.log("login")}
+          onPress={() => navigation.navigate("Login")}
           color="primary"
         />
         <ButtonComponent
           title="Register"
-          onPress={() => console.log("register")}
+          onPress={() => navigation.navigate("Register")}
           color="secondary"
         />
       </View>

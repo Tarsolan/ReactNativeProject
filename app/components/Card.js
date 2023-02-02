@@ -1,25 +1,31 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React from "react";
 import colors from "../config/colors";
 
-const Card = ({ title, subTitle, image }) => {
-  const filePath = "../assets/" + image;
-
+const Card = ({ title, subTitle, image, onPress }) => {
   return (
-    <View style={styles.card}>
-      <Image source={image} style={styles.image} resizeMode="contain" />
-      <View style={styles.detailContainer}>
-        <Text style={[styles.text, { marginBottom: 10 }]} numberOfLines={3}>
-          {title}
-        </Text>
-        <Text
-          style={[styles.text, { color: colors.secondary }]}
-          numberOfLines={10}
-        >
-          {subTitle}
-        </Text>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.card}>
+        <Image source={image} style={styles.image} resizeMode="contain" />
+        <View style={styles.detailContainer}>
+          <Text style={[styles.text, { marginBottom: 10 }]} numberOfLines={3}>
+            {title}
+          </Text>
+          <Text
+            style={[styles.text, { color: colors.secondary }]}
+            numberOfLines={10}
+          >
+            {subTitle}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -28,7 +34,7 @@ export default Card;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
-    margin: 24,
+    marginBottom: 20,
     borderRadius: 15,
     overflow: "hidden",
   },
