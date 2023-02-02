@@ -8,11 +8,15 @@ import {
 import React from "react";
 import colors from "../config/colors";
 
-const Card = ({ title, subTitle, image, onPress }) => {
+const Card = ({ title, subTitle, imageUrl, onPress }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
-        <Image source={image} style={styles.image} resizeMode="contain" />
+        <Image
+          source={{ uri: imageUrl }}
+          style={styles.image}
+          resizeMode="contain"
+        />
         <View style={styles.detailContainer}>
           <Text style={[styles.text, { marginBottom: 10 }]} numberOfLines={3}>
             {title}

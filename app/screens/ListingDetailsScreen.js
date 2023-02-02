@@ -9,17 +9,19 @@ const ListingDetailsScreen = ({ route }) => {
 
   return (
     <View>
-      <Image source={listing.image} style={styles.image} />
+      <Image source={{ uri: listing.images[0].url }} style={styles.image} />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{listing.title}</AppText>
-        <AppText style={styles.price}>{listing.price}</AppText>
-      </View>
-      <View style={styles.userContainer}>
-        <ListItem
-          image={require("../assets/mosh.jpg")}
-          title={"Mosh Hamedani"}
-          subTitle={"5 Listings"}
-        />
+        <AppText style={styles.price}>${listing.price}</AppText>
+
+        <View style={styles.userContainer}>
+          <ListItem
+            image={require("../assets/mosh.jpg")}
+            title={"Mosh Hamedani"}
+            subTitle={"5 Listings"}
+            showChevron
+          />
+        </View>
       </View>
     </View>
   );
