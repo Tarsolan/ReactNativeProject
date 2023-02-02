@@ -1,38 +1,45 @@
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import Screen from "../components/Screen";
-import routes from "../navigation/routes";
+
 import Card from "../components/Card";
 import colors from "../config/colors";
-
-const initialListings = [
-  {
-    // Pretty good chance this will get replaced by some kind of state
-    id: 1,
-    title: "Red jacket for sale",
-    subTitle: 100,
-    image: require("../assets/jacket.jpg"),
-  },
-  {
-    id: 2,
-    title: "Couch in great condition",
-    subTitle: 1000,
-    image: require("../assets/couch.jpg"),
-  },
-];
+import listingsApi from "../api/listings";
+import routes from "../navigation/routes";
+import Screen from "../components/Screen";
+import AppText from "../components/AppText";
+import ButtonComponent from "../components/Button";
+import ActivityIndicator from "../components/ActivityIndicator";
+import useApi from "../hooks/useApi";
 
 const ListingsScreen = ({ navigation }) => {
-  const [listings, setListings] = useState(initialListings);
+  const {
+    data: listings,
+    error,
+    loading,
+    request: loadListings,
+  } = useApi(listingsApi.getListings);
+
+  useEffect(() => {
+    loadListings();
+  }, []);
+
   return (
     <Screen style={styles.screen}>
+      {error && (
+        <>
+          <AppText>Couldn't retrieve the listings.</AppText>
+          <ButtonComponent title="Retry" onPress={() => loadListings()} />
+        </>
+      )}
+      <ActivityIndicator visible={loading} />
       <FlatList
         data={listings}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <Card
             title={item.title}
-            subTitle={"$" + item.subTitle}
-            image={item.image}
+            subTitle={"$" + item.price}
+            imageUrl={item.images[0].url}
             onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
           />
         )}

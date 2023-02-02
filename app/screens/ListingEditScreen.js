@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Screen from "../components/Screen";
 
 import * as Yup from "yup";
@@ -13,6 +13,8 @@ import {
 } from "../components/forms";
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import useLocation from "../hooks/useLocation";
+import listingApi from "../api/listings";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -47,19 +49,46 @@ const categories = [
 ];
 
 const ListingEditScreen = () => {
+  const initialValues = () => ({
+    title: "",
+    price: "",
+    category: null,
+    description: "",
+    images: [],
+  });
   const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0);
+    setUploadVisible(true);
+    const result = await listingApi.postListing(
+      {
+        ...listing,
+        location: location,
+      },
+      (progress) => setProgress(progress)
+    );
+
+    if (!result.ok) {
+      setUploadVisible(false);
+      alert("Could not save the listing!");
+    }
+
+    resetForm({ values: initialValues() });
+  };
 
   return (
     <Screen style={styles.container}>
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={() => setUploadVisible(false)}
+      />
       <AppForm
-        initialValues={{
-          title: "",
-          price: "",
-          category: null,
-          description: "",
-          images: [],
-        }}
-        onSubmit={(values) => console.log(values)}
+        initialValues={initialValues()}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
@@ -96,6 +125,7 @@ const ListingEditScreen = () => {
           numberOfLines={3}
           placeholder="Description"
         />
+
         <SubmitButton title="Post" />
       </AppForm>
     </Screen>

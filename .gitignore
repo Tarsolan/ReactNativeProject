@@ -11,6 +11,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+.env
+endpoint.js
 
 # macOS
 .DS_Store
