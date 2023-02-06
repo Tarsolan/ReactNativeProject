@@ -32,11 +32,16 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AppNavigator from "./app/navigation/AppNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
+import { useNetInfo } from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [firstName, setFirstName] = useState("");
   const [isNew, setIsNew] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true);
+
+  // const netInfo = useNetInfo();
+  useEffect(() => {}, []);
 
   const { landscape } = useDeviceOrientation();
 
