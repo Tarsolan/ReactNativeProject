@@ -19,6 +19,7 @@ const AppNavigator = () => {
         name="Feed"
         component={FeedNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -33,6 +34,7 @@ const AppNavigator = () => {
               onPress={() => navigation.navigate(routes.LISTING_EDIT)}
             />
           ),
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="plus-circle"
@@ -46,6 +48,7 @@ const AppNavigator = () => {
         name="Account"
         component={AccountNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),

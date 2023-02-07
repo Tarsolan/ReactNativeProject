@@ -1,5 +1,12 @@
 // import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Image, Alert, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Alert,
+  Button,
+  SafeAreaView,
+} from "react-native";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
@@ -15,7 +22,7 @@ import Constants from "expo-constants";
 import Screen from "./app/components/Screen";
 import MyAccountScreen from "./app/screens/AccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AppTextInput from "./app/components/TextInput";
 import AppPicker from "./app/components/AppPicker";
 import LoginScreen from "./app/screens/LoginScreen";
@@ -34,14 +41,52 @@ import AppNavigator from "./app/navigation/AppNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import { useNetInfo } from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import OfflineNotice from "./app/components/OfflineNotice";
+import AuthContext from "./app/auth/context";
+import authStorage from "./app/auth/storage";
+import jwtDecode from "jwt-decode";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [firstName, setFirstName] = useState("");
   const [isNew, setIsNew] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  // const netInfo = useNetInfo();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await restoreUser();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (isReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [isReady]);
+
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
+  };
 
   const { landscape } = useDeviceOrientation();
 
@@ -53,10 +98,12 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <Screen>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+        <OfflineNotice />
+
         <NavigationContainer theme={navigationTheme}>
-          {loggedIn ? <AppNavigator /> : <AuthNavigator />}
+          {user ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
 
         {/* <ImageInputList
@@ -93,14 +140,15 @@ export default function App() {
         {/* <LoginScreen /> */}
         {/* <RegisterScreen /> */}
         {/* <ListingEditScreen /> */}
-      </Screen>
-    </View>
+      </SafeAreaView>
+    </AuthContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
   textInput: { borderBottomColor: "#ccc", borderBottomWidth: 1 },
   container: {
+    paddingTop: Constants.statusBarHeight,
     flex: 1,
     //backgroundColor: "#f8f4f4",
     backgroundColor: colors.white,
