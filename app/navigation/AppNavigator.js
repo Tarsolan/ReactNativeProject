@@ -10,8 +10,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
 
+import navigation from "./rootNavigation";
+import useNotifications from "../hooks/useNotifications";
+
+const Tab = createBottomTabNavigator();
+
 const AppNavigator = () => {
-  const Tab = createBottomTabNavigator();
+  useNotifications();
 
   return (
     <Tab.Navigator>

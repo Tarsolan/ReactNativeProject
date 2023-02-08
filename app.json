@@ -4,7 +4,7 @@
     "slug": "DoneWithIt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/iconTwo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./app/assets/splashTwo.png",
