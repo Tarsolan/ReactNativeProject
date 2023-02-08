@@ -10,8 +10,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
 
+import navigation from "./rootNavigation";
+import useNotifications from "../hooks/useNotifications";
+
+const Tab = createBottomTabNavigator();
+
 const AppNavigator = () => {
-  const Tab = createBottomTabNavigator();
+  useNotifications();
 
   return (
     <Tab.Navigator>
@@ -19,6 +24,7 @@ const AppNavigator = () => {
         name="Feed"
         component={FeedNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -33,6 +39,7 @@ const AppNavigator = () => {
               onPress={() => navigation.navigate(routes.LISTING_EDIT)}
             />
           ),
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="plus-circle"
@@ -46,6 +53,7 @@ const AppNavigator = () => {
         name="Account"
         component={AccountNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
